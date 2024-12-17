@@ -20,11 +20,11 @@ hide_streamlit_elements = """
         header {visibility: hidden !important;}
         footer {visibility: hidden !important;}
         .main .block-container { 
-            padding-top: -20px !important;   /* 上部余白をゼロに */
-            margin-top: -20px !important;    /* 上部マージンをゼロに */
+            padding-top: -80px !important;   /* 上部余白をゼロに */
+            margin-top: -80px !important;    /* 上部マージンをゼロに */
         }
         .block-container {
-            margin-top: -20px !important;   /* コンテナ全体の余白を削除 */
+            margin-top: -80px !important;   /* コンテナ全体の余白を削除 */
         }
     </style>
 """
