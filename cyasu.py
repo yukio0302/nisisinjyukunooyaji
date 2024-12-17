@@ -71,8 +71,8 @@ if search_mode == "住所で検索":
                 ).add_to(map_)
 
             # 地図をHTMLに変換して表示
-            map_html = map_._repr_html_()
-            st.markdown(map_html, unsafe_allow_html=True)
+            map_html = map_._repr_html_()  # folium.MapをHTML形式に変換
+            st.markdown(map_html, unsafe_allow_html=True)  # Streamlitで表示
 
             # 銘柄セレクトボックスを表示
             brands = nearby_stores['銘柄'].unique()  # ブランド名の列名を確認してください
