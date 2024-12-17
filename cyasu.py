@@ -144,7 +144,7 @@ if search_mode == "住所で検索":
                 st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-            st_folium(m, width=700, height=500)
+            st_folium(m, width="100%", height=500)
 
         else:
             st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
@@ -222,7 +222,7 @@ elif search_mode == "最寄り駅で検索":
                         st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-            st_folium(m, width=700, height=500)
+            st_folium(m, width="100%", height=500)
 
         else:
             st.warning("該当する駅が見つかりませんでした。")
