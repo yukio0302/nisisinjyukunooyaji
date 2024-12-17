@@ -3,6 +3,8 @@ import googlemaps
 from streamlit.components.v1 import html
 import pandas as pd
 from geopy.distance import geodesic
+import folium
+from folium.plugins import MarkerCluster
 
 # Google Maps APIキー
 GMAPS_API_KEY = "AIzaSyAlOeNotpA-q0KYg8TSTnHoiJz_Am-WguY"
@@ -43,31 +45,44 @@ if search_mode == "住所で検索":
             search_lat = results[0]["geometry"]["location"]["lat"]
             search_lon = results[0]["geometry"]["location"]["lng"]
 
+            # 地図作成
+            map_ = folium.Map(location=[search_lat, search_lon], zoom_start=14)
+
+            # 赤いピンを追加（検索地点）
+            folium.Marker([search_lat, search_lon], popup="検索地", icon=folium.Icon(color='red')).add_to(map_)
+
             # 加盟店データとの距離計算
             加盟店_data["distance"] = 加盟店_data.apply(
                 lambda row: geodesic((search_lat, search_lon), (row["lat"], row["lon"])).km, axis=1
             )
             nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
 
-            # 結果を表示
-            if not nearby_stores.empty:
-                st.write(f"10km圏内の加盟店数: {len(nearby_stores)}")
-                for _, store in nearby_stores.iterrows():
-                    st.write(f"- {store['name']} ({store['distance']:.2f} km)")
-            else:
-                st.write("10km圏内に加盟店はありません。")
+            # 青いピンを追加（加盟店）
+            for _, store in nearby_stores.iterrows():
+                folium.Marker(
+                    [store["lat"], store["lon"]],
+                    popup=f"""
+                        店名: {store['name']}<br>
+                        <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
+                        銘柄: <span style="background-color:red;color:white;">{store['brand']}</span><br>
+                        距離: {store['distance']:.2f} km
+                    """,
+                    icon=folium.Icon(color='blue')
+                ).add_to(map_)
 
             # 地図を表示
-            map_html = f"""
-            <iframe
-                width="100%"
-                height="500"
-                src="https://www.google.com/maps/embed/v1/view?key={GMAPS_API_KEY}&center={search_lat},{search_lon}&zoom=15"
-                style="border:0;"
-                allowfullscreen>
-            </iframe>
-            """
-            html(map_html, height=500)
+            st.write(map_)
+
+            # 銘柄セレクトボックスを表示
+            brands = nearby_stores['brand'].unique()
+            selected_brand = st.selectbox('銘柄を選択してください', brands)
+
+            # 選択した銘柄の加盟店のみ表示
+            filtered_stores = nearby_stores[nearby_stores['brand'] == selected_brand]
+            st.write(f"選択された銘柄: {selected_brand}")
+            for _, store in filtered_stores.iterrows():
+                st.write(f"- {store['name']} ({store['distance']:.2f} km)")
+
         else:
             st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
 
@@ -80,16 +95,13 @@ elif search_mode == "最寄り駅で検索":
             search_lat = results[0]["geometry"]["location"]["lat"]
             search_lon = results[0]["geometry"]["location"]["lng"]
 
+            # 地図作成
+            map_ = folium.Map(location=[search_lat, search_lon], zoom_start=14)
+
+            # 赤いピンを追加（検索地点）
+            folium.Marker([search_lat, search_lon], popup="検索地", icon=folium.Icon(color='red')).add_to(map_)
+
             # 地図を表示
-            map_html = f"""
-            <iframe
-                width="100%"
-                height="500"
-                src="https://www.google.com/maps/embed/v1/view?key={GMAPS_API_KEY}&center={search_lat},{search_lon}&zoom=15"
-                style="border:0;"
-                allowfullscreen>
-            </iframe>
-            """
-            html(map_html, height=500)
+            st.write(map_)
         else:
             st.warning("該当する駅が見つかりませんでした。")
