@@ -26,7 +26,7 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 # 加盟店データを外部ファイルからインポート
 from 加盟店_data import 加盟店_data
 
-st.image("kensakup_top.png", use_column_width=True)
+st.image("kensakup_top.png",  use_container_width=True)
 st.write("郵便番号もしくは住所を入力して、10km圏内の加盟店を検索します。")
 
 # 検索モード選択
