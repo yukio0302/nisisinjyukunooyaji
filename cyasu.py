@@ -64,7 +64,7 @@ if search_mode == "住所で検索":
                     popup=f"""
                         店名: {store['name']}<br>
                         <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
-                        銘柄: <span style="background-color:red;color:white;">{store['brand']}</span><br>
+                        銘柄: <span style="background-color:red;color:white;">{store['銘柄']}</span><br>
                         距離: {store['distance']:.2f} km
                     """,
                     icon=folium.Icon(color='blue')
@@ -74,11 +74,11 @@ if search_mode == "住所で検索":
             st.write(map_)
 
             # 銘柄セレクトボックスを表示
-            brands = nearby_stores['brand'].unique()
+            brands = nearby_stores['銘柄'].unique()
             selected_brand = st.selectbox('銘柄を選択してください', brands)
 
             # 選択した銘柄の加盟店のみ表示
-            filtered_stores = nearby_stores[nearby_stores['brand'] == selected_brand]
+            filtered_stores = nearby_stores[nearby_stores['銘柄'] == selected_brand]
             st.write(f"選択された銘柄: {selected_brand}")
             for _, store in filtered_stores.iterrows():
                 st.write(f"- {store['name']} ({store['distance']:.2f} km)")
