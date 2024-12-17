@@ -11,46 +11,16 @@ from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
 from streamlit.components.v1 import html
 
-# JavaScriptを使用してライトモードを強制
-force_light_mode_js = """
-    <script>
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.style.backgroundColor = "#ffffff";  // 背景色を白に設定
-            document.documentElement.style.color = "#000000";  // テキストカラーを黒に設定
-        }
-    </script>
-"""
-
-# HTMLとしてJavaScriptを埋め込む
-html(force_light_mode_js)
-
-# 強制的にライトモードにするためのCSS
-light_mode_css = """
+st.markdown(
+    """
     <style>
-        /* 強制的にライトモードに設定 */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #fff;
-                color: #000;
-            }
-        }
-
-        /* ブラウザのダークモードの影響を受けないようにする */
-        body {
-            background-color: #fff;
-            color: #000;
-        }
-
-        /* ストリームリットのデフォルトのダークモードを無効化 */
-        .css-1m8v0j8 {
-            background-color: #fff !important;
-            color: #000 !important;
-        }
+    body {
+        background-color: #ffffff;
+        color: #000000;
+    }
     </style>
-"""
-
-# CSSを読み込む
-st.markdown(light_mode_css, unsafe_allow_html=True)
+    """, unsafe_allow_html=True
+)
 
 
 # Google Maps APIキー
