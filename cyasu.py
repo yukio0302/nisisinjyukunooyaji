@@ -107,7 +107,7 @@ if search_mode == "住所で検索":
                         if bounds:
                             bounds.append((search_lat, search_lon))
                             m.fit_bounds(bounds, padding=(30, 30))
-                    else:
+                    elif:
                         st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
                         else:
             st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
