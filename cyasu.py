@@ -5,6 +5,7 @@ import pandas as pd
 from geopy.distance import geodesic
 from streamlit_folium import folium_static
 import folium
+from streamlit_folium import st_folium
 # カスタムCSS読込
 from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
@@ -110,7 +111,8 @@ if search_mode == "住所で検索":
                         st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-            folium_static(m)
+            st_folium(map_, width=700, height=500)
+
 
         else:
             st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
@@ -188,7 +190,7 @@ elif search_mode == "最寄り駅で検索":
                         st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-            folium_static(m)
+            st_folium(map_, width=700, height=500)
 
         else:
             st.warning("該当する駅が見つかりませんでした。")
