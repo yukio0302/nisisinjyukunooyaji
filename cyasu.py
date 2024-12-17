@@ -22,6 +22,25 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
+# 強制的にライトモードにするためのCSS
+st.markdown(
+    """
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        /* ダークモードのCSSを無効化 */
+        .css-1v0mbdj {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        .css-1q4rdi6 {
+            background-color: #ffffff !important;
+        }
+    </style>
+    """, unsafe_allow_html=True
+)
 
 # Google Maps APIキー
 GMAPS_API_KEY = "AIzaSyAlOeNotpA-q0KYg8TSTnHoiJz_Am-WguY"
