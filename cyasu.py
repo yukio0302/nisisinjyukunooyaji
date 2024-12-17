@@ -26,7 +26,7 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 # 加盟店データを外部ファイルからインポート
 from 加盟店_data import 加盟店_data
 
-st.image("kensakup_top.png",  use_container_width=True)
+st.image("kensakup_top.png", use_container_width=True)
 st.write("郵便番号もしくは住所を入力して、10km圏内の加盟店を検索します。")
 
 # 検索モード選択
@@ -70,15 +70,16 @@ if search_mode == "住所で検索":
                     icon=folium.Icon(color='blue')
                 ).add_to(map_)
 
-            # 地図を表示
-            st.write(map_)
+            # 地図をHTMLに変換して表示
+            map_html = map_._repr_html_()
+            st.markdown(map_html, unsafe_allow_html=True)
 
             # 銘柄セレクトボックスを表示
-            brands = nearby_stores['銘柄'].unique()
+            brands = nearby_stores['銘柄'].unique()  # ブランド名の列名を確認してください
             selected_brand = st.selectbox('銘柄を選択してください', brands)
 
             # 選択した銘柄の加盟店のみ表示
-            filtered_stores = nearby_stores[nearby_stores['brand'] == selected_brand]
+            filtered_stores = nearby_stores[nearby_stores['銘柄'] == selected_brand]  # '銘柄'列を確認
             st.write(f"選択された銘柄: {selected_brand}")
             for _, store in filtered_stores.iterrows():
                 st.write(f"- {store['name']} ({store['distance']:.2f} km)")
@@ -101,7 +102,8 @@ elif search_mode == "最寄り駅で検索":
             # 赤いピンを追加（検索地点）
             folium.Marker([search_lat, search_lon], popup="検索地", icon=folium.Icon(color='red')).add_to(map_)
 
-            # 地図を表示
-            st.write(map_)
+            # 地図をHTMLに変換して表示
+            map_html = map_._repr_html_()
+            st.markdown(map_html, unsafe_allow_html=True)
         else:
             st.warning("該当する駅が見つかりませんでした。")
