@@ -102,8 +102,8 @@ if search_mode == "住所で検索":
                                 icon=folium.Icon(color="blue"),
                             ).add_to(m)
                             bounds.append((store["lat"], store["lon"]))
-
-                       # 地図の表示範囲設定
+                            
+# 地図の表示範囲設定
 if bounds:
     bounds.append((search_lat, search_lon))
     m.fit_bounds(bounds, padding=(30, 30))
@@ -112,8 +112,9 @@ else:
     st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
 # 住所や郵便番号が見つからなかった場合の処理
-else:
+if not results:
     st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
+
 
 
             # 地図を表示
