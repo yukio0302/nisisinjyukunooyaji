@@ -209,3 +209,13 @@ elif search_mode == "最寄り駅で検索":
 
         else:
             st.warning("該当する駅が見つかりませんでした。")
+
+            # 追加したいカスタムCSS
+st.markdown("""
+    <style>
+        main .block-container {
+            padding-bottom: -80px !important;  /* 下部余白をゼロに */
+            margin-bottom: -80px !important;   /* 下部マージンをゼロに */
+        }
+    </style>
+""", unsafe_allow_html=True)
