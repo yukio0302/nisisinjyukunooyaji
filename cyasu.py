@@ -109,14 +109,13 @@ if search_mode == "住所で検索":
                             m.fit_bounds(bounds, padding=(30, 30))
                     else:
                         st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
+                        else:
+            st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
 
             # 地図を表示
 st_folium(m, width=700, height=500)
 
-
-
-        else:
-            st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
+            
 elif search_mode == "最寄り駅で検索":
     station_name = st.text_input("最寄り駅名を入力してください:")
     if station_name:
