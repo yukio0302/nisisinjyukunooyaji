@@ -49,13 +49,58 @@ if search_mode == "住所で検索":
             )
             nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
 
-            # 結果を表示
-            if not nearby_stores.empty:
-                st.write(f"10km圏内の加盟店数: {len(nearby_stores)}")
-                for _, store in nearby_stores.iterrows():
-                    st.write(f"- {store['name']} ({store['distance']:.2f} km)")
-            else:
-                st.write("10km圏内に加盟店はありません。")
+            # 10km以内の加盟店をフィルタリング
+            nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
+
+  # 検索エリアの取り扱い銘柄一覧を表示
+if 'nearby_stores' in locals() and not nearby_stores.empty:  # nearby_stores が定義されていて、空でない場合
+    if "銘柄" in nearby_stores.columns:
+        all_brands = set(
+            brand for brands in nearby_stores["銘柄"]
+            if brands and brands != [""]  # 空リストまたは取り扱い銘柄なしの処理
+            for brand in brands
+        )
+    else:
+        all_brands = set()
+    all_brands.add("すべての銘柄")
+
+    selected_brand = st.selectbox("検索エリアの取り扱い銘柄一覧", sorted(all_brands))
+
+    if selected_brand:
+        if selected_brand == "すべての銘柄":
+            filtered_stores = nearby_stores
+        else:
+            filtered_stores = nearby_stores[
+                nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
+            ]
+
+        if not filtered_stores.empty:
+            bounds = []
+            for _, store in filtered_stores.iterrows():
+                brand_html = "".join(
+                    f'<span style="background-color: red; color: white; padding: 2px 4px; margin: 2px; display: inline-block;">{brand}</span>'
+                    for brand in store["銘柄"]
+                )
+                popup_content = f"""
+                <b>{store['name']}</b><br>
+                <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
+                銘柄: {brand_html}<br>
+                距離: {store['distance']:.2f} km
+                """
+                folium.Marker(
+                    [store["lat"], store["lon"]],
+                    popup=folium.Popup(popup_content, max_width=300),
+                    icon=folium.Icon(color="blue"),
+                ).add_to(m)
+                bounds.append((store["lat"], store["lon"]))
+
+            if bounds:
+                # 検索地点の座標も bounds に追加
+                bounds.append((search_lat, search_lon))  
+                m.fit_bounds(bounds, padding=(30, 30))  # 適度な余白を設定
+        else:
+            st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
+
 
             # 地図を表示
             map_html = f"""
@@ -79,6 +124,53 @@ elif search_mode == "最寄り駅で検索":
         if results:
             search_lat = results[0]["geometry"]["location"]["lat"]
             search_lon = results[0]["geometry"]["location"]["lng"]
+              # 加盟店データとの距離計算
+            加盟店_data["distance"] = 加盟店_data.apply(
+                lambda row: geodesic((search_lat, search_lon), (row["lat"], row["lon"])).km, axis=1
+            )
+            nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
+
+            # 検索エリアの取り扱い銘柄一覧を表示
+            all_brands = set(
+                brand for brands in nearby_stores["銘柄"]
+                if brands and brands != [""]  # 空リストまたは取り扱い銘柄なしの処理
+                for brand in brands
+            )
+            all_brands.add("すべての銘柄")
+            selected_brand = st.selectbox("検索エリアの取り扱い銘柄一覧", sorted(all_brands))
+
+            if selected_brand:
+                if selected_brand == "すべての銘柄":
+                    filtered_stores = nearby_stores
+                else:
+                    filtered_stores = nearby_stores[
+                        nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
+                    ]
+
+                if not filtered_stores.empty:
+                    bounds = []
+                    for _, store in filtered_stores.iterrows():
+                        brand_html = "".join(
+                            f'<span style="background-color: red; color: white; padding: 2px 4px; margin: 2px; display: inline-block;">{brand}</span>'
+                            for brand in store["銘柄"]
+                        )
+                        popup_content = f"""
+                        <b>{store['name']}</b><br>
+                        <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
+                        銘柄: {brand_html}<br>
+                        距離: {store['distance']:.2f} km
+                        """
+                        folium.Marker(
+                            [store["lat"], store["lon"]],
+                            popup=folium.Popup(popup_content, max_width=300),
+                            icon=folium.Icon(color="blue"),
+                        ).add_to(m)
+                        bounds.append((store["lat"], store["lon"]))
+                    if bounds:
+                        # 検索地点の座標も bounds に追加
+                        bounds.append((search_lat, search_lon))  
+                        m.fit_bounds(bounds, padding=(30, 30))  # 適度な余白を設定
+
 
             # 地図を表示
             map_html = f"""
