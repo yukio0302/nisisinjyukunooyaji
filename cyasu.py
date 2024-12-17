@@ -6,14 +6,22 @@ from geopy.distance import geodesic
 from streamlit_folium import folium_static
 import folium
 from streamlit_folium import st_folium
+import json
+
 # カスタムCSS読込
 from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
 from streamlit.components.v1 import html
 
-# Google Maps APIキー
-GMAPS_API_KEY = "AIzaSyAlOeNotpA-q0KYg8TSTnHoiJz_Am-WguY"
-gmaps = googlemaps.Client(key=GMAPS_API_KEY)
+# config.jsonファイルを読み込み
+with open("config.json", "r") as f:
+    config = json.load(f)
+
+# APIキーを取得
+API_KEY = config["GOOGLE_API_KEY"]
+
+# Google Mapsのクライアントを作成
+gmaps = googlemaps.Client(key=API_KEY)
 
 hide_streamlit_elements = """
     <style>
