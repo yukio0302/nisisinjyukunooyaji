@@ -53,10 +53,12 @@ hide_streamlit_elements = """
     <style>
         header {visibility: hidden !important;}
         footer {visibility: hidden !important;}
+        .main .block-container {  # ストリームリットのメインコンテナ
+            padding-top: 0px !important;  # 上部の余白を削除
+        }
     </style>
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
-
 # 加盟店データを外部ファイルからインポート
 from 加盟店_data import 加盟店_data
 # 画像の上部に余白ができるのを防ぐためのCSS
