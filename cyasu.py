@@ -56,11 +56,7 @@ if search_mode == "住所で検索":
             nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
 
             # 赤いピン（検索地点）
-            folium.Marker(
-                [search_lat, search_lon],
-                popup="検索地",
-                icon=folium.Icon(color="red")
-            ).add_to(m)
+            folium.Marker            ).add_to(m)
 
             # 検索エリアの取り扱い銘柄一覧を表示
             if not nearby_stores.empty and "銘柄" in nearby_stores.columns:
@@ -102,25 +98,20 @@ if search_mode == "住所で検索":
                                 icon=folium.Icon(color="blue"),
                             ).add_to(m)
                             bounds.append((store["lat"], store["lon"]))
-                            
-# 地図の表示範囲設定
-if bounds:
-    bounds.append((search_lat, search_lon))
-    m.fit_bounds(bounds, padding=(30, 30))
-else:
-    # ブランドに対応する店舗がない場合
-    st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
-# 住所や郵便番号が見つからなかった場合の処理
-if not results:
-    st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
-
-
+                        # 地図の表示範囲設定
+                        if bounds:
+                            bounds.append((search_lat, search_lon))
+                            m.fit_bounds(bounds, padding=(30, 30))
+                        else:
+                            st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-st_folium(m, width=700, height=500)
+            st_folium(m, width=700, height=500)
 
-            
+        else:
+            st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
+
 elif search_mode == "最寄り駅で検索":
     station_name = st.text_input("最寄り駅名を入力してください:")
     if station_name:
@@ -129,8 +120,6 @@ elif search_mode == "最寄り駅で検索":
         if results:
             search_lat = results[0]["geometry"]["location"]["lat"]
             search_lon = results[0]["geometry"]["location"]["lng"]
-        else:
-            st.warning("該当する駅が見つかりませんでした。")
 
             # 地図オブジェクト作成
             m = folium.Map(location=[search_lat, search_lon], zoom_start=14)
@@ -193,12 +182,9 @@ elif search_mode == "最寄り駅で検索":
                         if bounds:
                             bounds.append((search_lat, search_lon))
                             m.fit_bounds(bounds, padding=(30, 30))
-                    else:
-                        st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-st_folium(m, width=700, height=500)
-
+            st_folium(m, width=700, height=500)
 
         else:
             st.warning("該当する駅が見つかりませんでした。")
