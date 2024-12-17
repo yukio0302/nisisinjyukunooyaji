@@ -20,11 +20,11 @@ hide_streamlit_elements = """
         header {visibility: hidden !important;}
         footer {visibility: hidden !important;}
         .main .block-container { 
-            padding-top: 0px !important;   /* 上部余白をゼロに */
-            margin-top: 0px !important;    /* 上部マージンをゼロに */
+            padding-top: -100px !important;   /* 上部余白をゼロに */
+            margin-top: -100px !important;    /* 上部マージンをゼロに */
         }
         .block-container {
-            margin-top: 0px !important;   /* コンテナ全体の余白を削除 */
+            margin-top: -100px !important;   /* コンテナ全体の余白を削除 */
         }
     </style>
 """
@@ -127,29 +127,7 @@ if search_mode == "住所で検索":
                 st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
             # 地図を表示
-            st.markdown("""
-    <style>
-        /* .block-containerの余白を調整 */
-        main .block-container {
-            padding-bottom: 0px !important;  /* 下部余白をゼロに */
-            margin-bottom: 0px !important;   /* 下部マージンをゼロに */
-            padding-top: 0px !important;     /* 上部余白をゼロに */
-            margin-top: 0px !important;      /* 上部マージンをゼロに */
-        }
-
-        /* st_folium周りの余白を調整 */
-        .css-1v3fvcr { 
-            margin-top: 0px !important;  /* 上部余白 */
-            margin-bottom: 0px !important; /* 下部余白 */
-            padding: 0px !important; /* 内部余白 */
-        }
-
-        /* 地図が表示される部分の高さを調整 */
-        .css-1r6urui { 
-            height: 100% !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
+            st_folium(m, width="100%", height=500)
 
         else:
             st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
