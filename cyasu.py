@@ -113,8 +113,6 @@ if 'nearby_stores' in locals() and not nearby_stores.empty:  # nearby_stores が
             </iframe>
             """
             html(map_html, height=500)
-        else:
-            st.warning("住所または郵便番号に該当する場所が見つかりませんでした。")
 
 elif search_mode == "最寄り駅で検索":
     station_name = st.text_input("最寄り駅名を入力してください:")
