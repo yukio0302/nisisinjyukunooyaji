@@ -56,7 +56,7 @@ if search_mode == "住所で検索":
             nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
 
             # 赤いピン（検索地点）
-            folium.Marker            ).add_to(m)
+            folium.Marker).add_to(m)
 
             # 検索エリアの取り扱い銘柄一覧を表示
             if not nearby_stores.empty and "銘柄" in nearby_stores.columns:
