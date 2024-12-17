@@ -214,8 +214,8 @@ elif search_mode == "最寄り駅で検索":
 st.markdown("""
     <style>
         main .block-container {
-            padding-bottom: -80px !important;  /* 下部余白をゼロに */
-            margin-bottom: -80px !important;   /* 下部マージンをゼロに */
+            padding-bottom: -120px !important;  /* 下部余白をゼロに */
+            margin-bottom: -120px !important;   /* 下部マージンをゼロに */
         }
     </style>
 """, unsafe_allow_html=True)
