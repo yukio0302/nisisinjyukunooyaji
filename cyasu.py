@@ -59,7 +59,17 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 
 # 加盟店データを外部ファイルからインポート
 from 加盟店_data import 加盟店_data
-
+# 画像の上部に余白ができるのを防ぐためのCSS
+st.markdown(
+    """
+    <style>
+        .css-1d391kg {  # ストリームリットの画像のデフォルトスタイル
+            margin-top: 0px !important;
+        }
+    </style>
+    """, 
+    unsafe_allow_html=True
+)
 st.image("kensakup_top.png",  use_container_width=True)
 st.write("郵便番号もしくは住所を入力して、10km圏内の加盟店を検索します。")
 
