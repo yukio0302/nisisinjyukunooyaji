@@ -129,6 +129,8 @@ elif search_mode == "最寄り駅で検索":
         if results:
             search_lat = results[0]["geometry"]["location"]["lat"]
             search_lon = results[0]["geometry"]["location"]["lng"]
+        else:
+            st.warning("該当する駅が見つかりませんでした。")
 
             # 地図オブジェクト作成
             m = folium.Map(location=[search_lat, search_lon], zoom_start=14)
