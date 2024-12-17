@@ -74,7 +74,7 @@ if search_mode == "住所で検索":
             st.write(map_)
 
             # 銘柄セレクトボックスを表示
-            brands = nearby_stores['brand'].unique()
+            brands = nearby_stores['銘柄'].unique()
             selected_brand = st.selectbox('銘柄を選択してください', brands)
 
             # 選択した銘柄の加盟店のみ表示
