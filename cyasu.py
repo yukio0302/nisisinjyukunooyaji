@@ -11,13 +11,14 @@ from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
 from streamlit.components.v1 import html
 
+# 強制ライトモード
 st.markdown(
     """
     <style>
-    body {
-        background-color: #ffffff;
-        color: #000000;
-    }
+        body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
     </style>
     """, unsafe_allow_html=True
 )
