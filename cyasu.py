@@ -5,14 +5,14 @@ import pandas as pd
 from geopy.distance import geodesic
 from streamlit_folium import folium_static
 import folium
+# カスタムCSS読込
+from cycustom_css import custom_css
+from cycustom_radio_css import custom_css as radio_custom_css
 
 # Google Maps APIキー
 GMAPS_API_KEY = "AIzaSyAlOeNotpA-q0KYg8TSTnHoiJz_Am-WguY"
 gmaps = googlemaps.Client(key=GMAPS_API_KEY)
 
-# カスタムCSS読込
-from cycustom_css import custom_css
-from cycustom_radio_css import custom_css as radio_custom_css
 
 # 強制的にCSSで開発者アイコンとロゴを非表示にする
 hide_streamlit_elements = """
