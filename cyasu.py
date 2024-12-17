@@ -64,7 +64,7 @@ if search_mode == "住所で検索":
                     popup=f"""
                         店名: {store['name']}<br>
                         <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
-                        銘柄: <span style="background-color:red;color:white;">{store['brand']}</span><br>
+                        銘柄: <span style="background-color:red;color:white;">{store['銘柄']}</span><br>
                         距離: {store['distance']:.2f} km
                     """,
                     icon=folium.Icon(color='blue')
