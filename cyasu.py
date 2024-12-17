@@ -10,6 +10,35 @@ from streamlit_folium import st_folium
 from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
 
+# 強制的にライトモードにするためのCSS
+light_mode_css = """
+    <style>
+        /* 強制的にライトモードに設定 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #fff;
+                color: #000;
+            }
+        }
+
+        /* ブラウザのダークモードの影響を受けないようにする */
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* ストリームリットのデフォルトのダークモードを無効化 */
+        .css-1m8v0j8 {
+            background-color: #fff !important;
+            color: #000 !important;
+        }
+    </style>
+"""
+
+# CSSを読み込む
+st.markdown(light_mode_css, unsafe_allow_html=True)
+
+
 # Google Maps APIキー
 GMAPS_API_KEY = "AIzaSyAlOeNotpA-q0KYg8TSTnHoiJz_Am-WguY"
 gmaps = googlemaps.Client(key=GMAPS_API_KEY)
