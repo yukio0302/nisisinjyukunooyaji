@@ -9,6 +9,20 @@ from streamlit_folium import st_folium
 # カスタムCSS読込
 from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
+from streamlit.components.v1 import html
+
+# JavaScriptを使用してライトモードを強制
+force_light_mode_js = """
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.style.backgroundColor = "#ffffff";  // 背景色を白に設定
+            document.documentElement.style.color = "#000000";  // テキストカラーを黒に設定
+        }
+    </script>
+"""
+
+# HTMLとしてJavaScriptを埋め込む
+html(force_light_mode_js)
 
 # 強制的にライトモードにするためのCSS
 light_mode_css = """
