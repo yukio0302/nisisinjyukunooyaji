@@ -11,54 +11,25 @@ from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
 from streamlit.components.v1 import html
 
-# 強制ライトモード
-st.markdown(
-    """
-    <style>
-        body {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-        }
-    </style>
-    """, unsafe_allow_html=True
-)
-
-# 強制的にライトモードにするためのCSS
-st.markdown(
-    """
-    <style>
-        body {
-            background-color: #ffffff;
-            color: #000000;
-        }
-        /* ダークモードのCSSを無効化 */
-        .css-1v0mbdj {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-        }
-        .css-1q4rdi6 {
-            background-color: #ffffff !important;
-        }
-    </style>
-    """, unsafe_allow_html=True
-)
-
 # Google Maps APIキー
 GMAPS_API_KEY = "AIzaSyAlOeNotpA-q0KYg8TSTnHoiJz_Am-WguY"
 gmaps = googlemaps.Client(key=GMAPS_API_KEY)
 
-
-# 強制的にCSSで開発者アイコンとロゴを非表示にする
 hide_streamlit_elements = """
     <style>
         header {visibility: hidden !important;}
         footer {visibility: hidden !important;}
-        .main .block-container {  # ストリームリットのメインコンテナ
-            padding-top: 0px !important;  # 上部の余白を削除
+        .main .block-container { 
+            padding-top: 0px !important;   /* 上部余白をゼロに */
+            margin-top: 0px !important;    /* 上部マージンをゼロに */
+        }
+        .block-container {
+            margin-top: 0px !important;   /* コンテナ全体の余白を削除 */
         }
     </style>
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
+
 # 加盟店データを外部ファイルからインポート
 from 加盟店_data import 加盟店_data
 # 画像の上部に余白ができるのを防ぐためのCSS
