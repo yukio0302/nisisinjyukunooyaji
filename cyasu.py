@@ -56,7 +56,7 @@ st.image("kensakup_top.png",  use_container_width=True)
 st.write("フリーワードを入力して、10km圏内の加盟店を検索します。")
 
 # フリーワード入力フォーム
-query = st.text_input("フリーワードを入力してください（例: 新宿駅、東京都新宿区など）:")
+query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
 
 if query:
     # Geocodingで緯度経度を取得
