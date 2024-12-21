@@ -1,5 +1,6 @@
 streamlit
 googlemaps
 pandas
-folium
 geopy
+folium
+streamlit-folium
