@@ -13,7 +13,7 @@ from cycustom_css import custom_css
 from cycustom_radio_css import custom_css as radio_custom_css
 from streamlit.components.v1 import html
 
-# config.jsonファイルを読み込み
+# config.jsonファイルを読込
 with open("config.json", "r") as f:
     config = json.load(f)
 
