@@ -52,7 +52,7 @@ st.markdown(
     """, 
     unsafe_allow_html=True
 )
-st.image("kensakup_top.png",  use_container_width=True)
+st.image("kensakup_topmain2.png",  use_container_width=True)
 st.write("フリーワードを入力して、10km圏内の加盟店を検索します。")
 
 # フリーワード入力フォーム
