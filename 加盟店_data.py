@@ -3338,7 +3338,7 @@ nan,
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1032",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1033",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1034",
-https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1444"
+"https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1444"
         # 他の840店分のURLを追加
     ],
     "銘柄": [["男山"],
