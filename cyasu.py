@@ -34,6 +34,20 @@ hide_streamlit_elements = """
         .block-container {
             margin-top: -100px !important;   /* コンテナ全体の余白を削除 */
         }
+        
+        /* 入力フォームの背景色を薄いグレーに変更 */
+        input[type="text"] {
+            background-color: #f5f5f5;  /* 薄いグレー */
+            border: 1px solid #ccc;    /* 境界線 */
+            border-radius: 4px;        /* 角を少し丸める */
+            padding: 10px;            /* 内側余白 */
+        }
+        /* フォーカス時のスタイル */
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #666;       /* フォーカス時の境界線の色 */
+        }
+        
     </style>
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
