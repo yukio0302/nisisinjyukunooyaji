@@ -7,6 +7,7 @@ from streamlit_folium import folium_static
 import folium
 from streamlit_folium import st_folium
 import json
+import importlib  # 動的リロードに必要
 
 # カスタムCSS読込
 from cycustom_css import custom_css
@@ -23,6 +24,14 @@ API_KEY = config["GOOGLE_API_KEY"]
 # Google Mapsのクライアントを作成
 gmaps = googlemaps.Client(key=API_KEY)
 
+# 加盟店データを外部ファイルからインポート
+import 加盟店_data  # 最初にインポート
+def reload_加盟店_data():
+    """加盟店データを動的にリロード"""
+    importlib.reload(加盟店_data)
+    return 加盟店_data.加盟店_data
+
+# カスタムCSS
 hide_streamlit_elements = """
     <style>
         header {visibility: hidden !important;}
@@ -47,13 +56,9 @@ hide_streamlit_elements = """
             outline: none;
             border-color: #666;       /* フォーカス時の境界線の色 */
         }
-        
     </style>
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
-
-# 加盟店データを外部ファイルからインポート
-from 加盟店_data import 加盟店_data
 
 # 画像の上部に余白ができるのを防ぐためのCSS
 st.markdown(
@@ -63,10 +68,10 @@ st.markdown(
             margin-top: 0px !important;
         }
     </style>
-    """, 
+    """,
     unsafe_allow_html=True
 )
-st.image("kensakup_topmain2.png",  use_container_width=True)
+st.image("kensakup_topmain2.png", use_container_width=True)
 st.write("フリーワードを入力して、10km圏内の販売店を検索します。")
 
 # フリーワード入力フォーム
@@ -82,11 +87,14 @@ if query:
         # 地図オブジェクト作成
         m = folium.Map(location=[search_lat, search_lon], zoom_start=14)
 
+        # 加盟店データをリロード
+        加盟店_data_df = reload_加盟店_data()
+
         # 加盟店データとの距離計算
-        加盟店_data["distance"] = 加盟店_data.apply(
+        加盟店_data_df["distance"] = 加盟店_data_df.apply(
             lambda row: geodesic((search_lat, search_lon), (row["lat"], row["lon"])).km, axis=1
         )
-        nearby_stores = 加盟店_data[加盟店_data["distance"] <= 10]
+        nearby_stores = 加盟店_data_df[加盟店_data_df["distance"] <= 10]
 
         # 赤いピン（検索地点）
         folium.Marker(
