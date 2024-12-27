@@ -8,6 +8,7 @@ import folium
 from streamlit_folium import st_folium
 import json
 import importlib  # 動的リロードに必要
+import base64
 
 # カスタムCSS読込
 from cycustom_css import custom_css
