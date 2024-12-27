@@ -153,6 +153,11 @@ if query:
 
         # 地図を表示
         st_folium(m, width="100%", height=500)
+        st.markdown("""
+    <a href="https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377" target="_blank" class="stLinkButton">
+        立春朝搾り特設サイトはこちら
+    </a>
+    """, unsafe_allow_html=True)
 
     else:
         st.warning("該当する場所が見つかりませんでした。")
