@@ -154,11 +154,25 @@ if query:
 
         # 地図を表示
         st_folium(m, width="100%", height=500)
-        st.markdown("""
-    <a href="https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377" target="_blank" class="stLinkButton">
-        立春朝搾り特設サイトはこちら
-    </a>
-    """, unsafe_allow_html=True)
+       # ローカル画像をBase64形式に変換する関数
+def get_image_as_base64(file_path):
+    with open(file_path, "rb") as file:
+        encoded_image = base64.b64encode(file.read()).decode()
+    return encoded_image
+
+# アップロードした画像ファイルのパス
+image_path = "to-kousiki-he.png"  # ユーザーがアップロードした画像ファイル
+link_url = "https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377"  # 画像をクリックした際に移動するURL
+
+# Base64エンコードした画像をHTMLで埋め込み
+encoded_image = get_image_as_base64(image_path)
+st.markdown(
+    f'<a href="{link_url}" target="_blank">'
+    f'<img src="data:image/png;base64,{encoded_image}" style="width:100%;">'
+    f'</a>',
+    unsafe_allow_html=True,
+)
+
 
     else:
         st.warning("該当する場所が見つかりませんでした。")
