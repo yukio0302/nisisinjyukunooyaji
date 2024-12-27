@@ -154,7 +154,10 @@ if query:
 
         # 地図を表示
         st_folium(m, width="100%", height=500)
-       # ローカル画像をBase64形式に変換する関数
+
+    else:
+        st.warning("該当する場所が見つかりませんでした。")
+ # ローカル画像をBase64形式に変換する関数
 def get_image_as_base64(file_path):
     with open(file_path, "rb") as file:
         encoded_image = base64.b64encode(file.read()).decode()
@@ -171,19 +174,14 @@ st.markdown(
     f'<img src="data:image/png;base64,{encoded_image}" style="width:100%;">'
     f'</a>',
     unsafe_allow_html=True,
-)
-
-
-    else:
-        st.warning("該当する場所が見つかりませんでした。")
-      
+)      
 
 # 追加したいカスタムCSS
 st.markdown("""
     <style>
         main .block-container {
             padding-bottom: -360px !important;  /* 下部余白をゼロに */
-            margin-bottom: -360px !important;   /* 下部マージンをゼロに */
+            margin-bottom: 0px !important;   /* 下部マージンをゼロに */
         }
     </style>
 """, unsafe_allow_html=True)
