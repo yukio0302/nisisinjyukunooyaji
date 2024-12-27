@@ -156,11 +156,7 @@ if query:
 
     else:
         st.warning("該当する場所が見つかりませんでした。")
-        st.markdown("""
-    <a href="https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377" target="_blank" class="stLinkButton">
-        立春朝搾り特設サイトはこちら
-    </a>
-    """, unsafe_allow_html=True)
+      
 
 # 追加したいカスタムCSS
 st.markdown("""
@@ -171,3 +167,8 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
+  st.markdown("""
+    <a href="https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377" target="_blank" class="stLinkButton">
+        立春朝搾り特設サイトはこちら
+    </a>
+    """, unsafe_allow_html=True)
