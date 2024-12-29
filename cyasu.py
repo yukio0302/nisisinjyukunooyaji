@@ -72,7 +72,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 st.image("kensakup_topmain2.png", use_container_width=True)
-st.write("フリーワードを入力して、10km圏内の販売店を検索します。")
+st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 
 # フリーワード入力フォーム
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
