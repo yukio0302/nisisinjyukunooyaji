@@ -71,7 +71,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.image("kensakup_topmain2.png", use_container_width=True)
+st.image("kensakup_topmain3.png", use_container_width=True)
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 
 # フリーワード入力フォーム
