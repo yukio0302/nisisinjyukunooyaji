@@ -55,7 +55,15 @@ hide_streamlit_elements = """
         input[type="text"]:focus {
             outline: none;
             border-color: #666;       /* フォーカス時の境界線の色 */
-        }
+        }   
+            /* 選択ボックスの入力を無効化 */
+            .stSelectbox [contenteditable="true"] {
+                pointer-events: none; /* マウスイベントを無効化 */
+            }
+            .stSelectbox input {
+                pointer-events: none; /* テキストボックスの操作を無効化 */
+            }
+        
     </style>
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
@@ -113,19 +121,6 @@ if query:
             all_brands.add("すべての銘柄")
 
             selected_brand = st.selectbox("検索エリアの取り扱い銘柄一覧", sorted(all_brands))
-
-             # このCSSをここに追加
-    st.markdown("""
-        <style>
-            /* 選択ボックスの入力を無効化 */
-            .stSelectbox [contenteditable="true"] {
-                pointer-events: none; /* マウスイベントを無効化 */
-            }
-            .stSelectbox input {
-                pointer-events: none; /* テキストボックスの操作を無効化 */
-            }
-        </style>
-    """, unsafe_allow_html=True)
 
             # 銘柄によるフィルタリング
     if selected_brand:
