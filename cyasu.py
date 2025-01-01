@@ -136,26 +136,26 @@ if query:
                 nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
             ]
 
-                # 加盟店情報を地図にマッピング
-                if not filtered_stores.empty:
-                    bounds = []
-                    for _, store in filtered_stores.iterrows():
-                        brand_html = "".join(
-                            f'<span style="background-color: red; color: white; padding: 2px 4px; margin: 2px; display: inline-block;">{brand}</span>'
-                            for brand in store["銘柄"]
-                        )
-                        popup_content = f"""
-                        <b>{store['name']}</b><br>
-                        <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
-                        銘柄: {brand_html}<br>
-                        距離: {store['distance']:.2f} km
-                        """
-                        folium.Marker(
-                            [store["lat"], store["lon"]],
-                            popup=folium.Popup(popup_content, max_width=300),
-                            icon=folium.Icon(color="blue"),
-                        ).add_to(m)
-                        bounds.append((store["lat"], store["lon"]))
+        # 加盟店情報を地図にマッピング
+        if not filtered_stores.empty:
+            bounds = []
+            for _, store in filtered_stores.iterrows():
+                brand_html = "".join(
+                    f'<span style="background-color: red; color: white; padding: 2px 4px; margin: 2px; display: inline-block;">{brand}</span>'
+                    for brand in store["銘柄"]
+                )
+                popup_content = f"""
+                <b>{store['name']}</b><br>
+                <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
+                銘柄: {brand_html}<br>
+                距離: {store['distance']:.2f} km
+                """
+                folium.Marker(
+                    [store["lat"], store["lon"]],
+                    popup=folium.Popup(popup_content, max_width=300),
+                    icon=folium.Icon(color="blue"),
+                ).add_to(m)
+                bounds.append((store["lat"], store["lon"]))
 
                     # 地図の表示範囲設定
                     if bounds:
