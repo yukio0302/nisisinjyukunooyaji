@@ -159,6 +159,24 @@ if query:
         else:
             st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
+# スクロール位置を固定するためのJavaScriptを埋め込み
+st.markdown("""
+    <script>
+        // ページのリレンダリング後にスクロール位置を維持する
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+            if (savedScrollPosition) {
+                window.scrollTo(0, parseInt(savedScrollPosition, 10));
+            }
+        });
+
+        // スクロール位置を保存する
+        window.addEventListener('scroll', function() {
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+        });
+    </script>
+""", unsafe_allow_html=True)
+
         # 地図を表示
         st_folium(m, width="100%", height=500)
         st.markdown("""
