@@ -156,13 +156,13 @@ if query:
                     icon=folium.Icon(color="blue"),
                 ).add_to(m)
                 bounds.append((store["lat"], store["lon"]))
-
-                    # 地図の表示範囲設定
-                    if bounds:
-                        bounds.append((search_lat, search_lon))
-                        m.fit_bounds(bounds, padding=(30, 30))
-                else:
-                    st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
+                
+# 地図の表示範囲設定
+            if bounds:
+                bounds.append((search_lat, search_lon))
+                m.fit_bounds(bounds, padding=(30, 30))
+        else:
+            st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
 
         # 地図を表示
         st_folium(m, width="100%", height=500)
