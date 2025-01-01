@@ -128,13 +128,13 @@ if query:
     """, unsafe_allow_html=True)
 
             # 銘柄によるフィルタリング
-            if selected_brand:
-                if selected_brand == "すべての銘柄":
-                    filtered_stores = nearby_stores
-                else:
-                    filtered_stores = nearby_stores[
-                        nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
-                    ]
+    if selected_brand:
+        if selected_brand == "すべての銘柄":
+            filtered_stores = nearby_stores
+        else:
+            filtered_stores = nearby_stores[
+                nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
+            ]
 
                 # 加盟店情報を地図にマッピング
                 if not filtered_stores.empty:
