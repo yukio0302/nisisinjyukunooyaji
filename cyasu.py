@@ -37,48 +37,31 @@ hide_streamlit_elements = """
         header {visibility: hidden !important;}
         footer {visibility: hidden !important;}
         .main .block-container { 
-            padding-top: -100px !important;   /* 上部余白をゼロに */
-            margin-top: -100px !important;    /* 上部マージンをゼロに */
+            padding-top: -100px !important;
+            margin-top: -100px !important;
         }
         .block-container {
-            margin-top: -100px !important;   /* コンテナ全体の余白を削除 */
+            margin-top: -100px !important;
         }
-        
-        /* 入力フォームの背景色を薄いグレーに変更 */
         input[type="text"] {
-            background-color: #f5f5f5;  /* 薄いグレー */
-            border: 1px solid #ccc;    /* 境界線 */
-            border-radius: 4px;        /* 角を少し丸める */
-            padding: 10px;            /* 内側余白 */
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
         }
-        /* フォーカス時のスタイル */
         input[type="text"]:focus {
             outline: none;
-            border-color: #666;       /* フォーカス時の境界線の色 */
+            border-color: #666;
         }   
-            /* 選択ボックスの入力を無効化 */
-            .stSelectbox [contenteditable="true"] {
-                pointer-events: none; /* マウスイベントを無効化 */
-            }
-            .stSelectbox input {
-                pointer-events: none; /* テキストボックスの操作を無効化 */
-            }
-        
+        .stSelectbox [contenteditable="true"],
+        .stSelectbox input {
+            pointer-events: none;
+        }
     </style>
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 
-# 画像の上部に余白ができるのを防ぐためのCSS
-st.markdown(
-    """
-    <style>
-        .css-1d391kg {  /* ストリームリットの画像のデフォルトスタイル */
-            margin-top: 0px !important;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# 画像と説明文
 st.image("kensakup_topmain3.png", use_container_width=True)
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 
@@ -98,11 +81,16 @@ if query:
         # 加盟店データをリロード
         加盟店_data_df = reload_加盟店_data()
 
-        # 加盟店データとの距離計算
+        # 10km圏内の店舗を検索
         加盟店_data_df["distance"] = 加盟店_data_df.apply(
             lambda row: geodesic((search_lat, search_lon), (row["lat"], row["lon"])).km, axis=1
         )
         nearby_stores = 加盟店_data_df[加盟店_data_df["distance"] <= 10]
+
+        # 10km圏内に店舗がない場合、30km圏内を検索
+        if nearby_stores.empty:
+            st.warning("10km圏内に販売店がありません。30km圏内で再検索します。")
+            nearby_stores = 加盟店_data_df[加盟店_data_df["distance"] <= 30]
 
         # 赤いピン（検索地点）
         folium.Marker(
@@ -123,60 +111,61 @@ if query:
             selected_brand = st.selectbox("検索エリアの取り扱い銘柄一覧", sorted(all_brands))
 
             # 銘柄によるフィルタリング
-    if selected_brand:
-        if selected_brand == "すべての銘柄":
-            filtered_stores = nearby_stores
+            if selected_brand:
+                if selected_brand == "すべての銘柄":
+                    filtered_stores = nearby_stores
+                else:
+                    filtered_stores = nearby_stores[
+                        nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
+                    ]
+
+                # 加盟店情報を地図にマッピング
+                if not filtered_stores.empty:
+                    bounds = []
+                    for _, store in filtered_stores.iterrows():
+                        brand_html = "".join(
+                            f'<span style="background-color: red; color: white; padding: 2px 4px; margin: 2px; display: inline-block;">{brand}</span>'
+                            for brand in store["銘柄"]
+                        )
+                        popup_content = f"""
+                        <b>{store['name']}</b><br>
+                        <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
+                        銘柄: {brand_html}<br>
+                        距離: {store['distance']:.2f} km
+                        """
+                        folium.Marker(
+                            [store["lat"], store["lon"]],
+                            popup=folium.Popup(popup_content, max_width=300),
+                            icon=folium.Icon(color="blue"),
+                        ).add_to(m)
+                        bounds.append((store["lat"], store["lon"]))
+
+                    # 地図の表示範囲設定
+                    if bounds:
+                        bounds.append((search_lat, search_lon))
+                        m.fit_bounds(bounds, padding=(30, 30))
+                else:
+                    st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
+
+                # 地図を表示
+                st_folium(m, width="100%", height=500)
+                st.markdown("""
+            <a href="https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377" target="_blank" class="stLinkButton">
+                立春朝搾りとは？公式サイトはこちら
+            </a>
+            """, unsafe_allow_html=True)
+
         else:
-            filtered_stores = nearby_stores[
-                nearby_stores["銘柄"].apply(lambda brands: selected_brand in brands)
-            ]
-
-        # 加盟店情報を地図にマッピング
-        if not filtered_stores.empty:
-            bounds = []
-            for _, store in filtered_stores.iterrows():
-                brand_html = "".join(
-                    f'<span style="background-color: red; color: white; padding: 2px 4px; margin: 2px; display: inline-block;">{brand}</span>'
-                    for brand in store["銘柄"]
-                )
-                popup_content = f"""
-                <b>{store['name']}</b><br>
-                <a href="{store['url']}" target="_blank">加盟店詳細はこちら</a><br>
-                銘柄: {brand_html}<br>
-                距離: {store['distance']:.2f} km
-                """
-                folium.Marker(
-                    [store["lat"], store["lon"]],
-                    popup=folium.Popup(popup_content, max_width=300),
-                    icon=folium.Icon(color="blue"),
-                ).add_to(m)
-                bounds.append((store["lat"], store["lon"]))
-                
-# 地図の表示範囲設定
-            if bounds:
-                bounds.append((search_lat, search_lon))
-                m.fit_bounds(bounds, padding=(30, 30))
-        else:
-            st.write(f"「{selected_brand}」を取り扱う店舗はありません。")
-
-        # 地図を表示
-        st_folium(m, width="100%", height=500)
-        st.markdown("""
-    <a href="https://www.meimonshu.jp/modules/xfsection/article.php?articleid=377" target="_blank" class="stLinkButton">
-        立春朝搾りとは？公式サイトはこちら
-    </a>
-    """, unsafe_allow_html=True)
-
+            st.warning("30km圏内にも該当する店舗がありません。")
     else:
         st.warning("該当する場所が見つかりませんでした。")
 
-# 追加したいカスタムCSS
+# 追加CSS
 st.markdown("""
     <style>
         main .block-container {
-            padding-bottom: -360px !important;  /* 下部余白をゼロに */
-            margin-bottom: 0px !important;   /* 下部マージンをゼロに */
+            padding-bottom: -360px !important;
+            margin-bottom: 0px !important;
         }
     </style>
 """, unsafe_allow_html=True)
-
