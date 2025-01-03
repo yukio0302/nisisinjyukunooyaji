@@ -156,9 +156,9 @@ if query:
             """, unsafe_allow_html=True)
 
         else:
-            st.warning("30km圏内にも該当する店舗がありません。")
+            st.warning("すみません。30km圏内にも該当する店舗が無いようです。")
     else:
-        st.warning("該当する場所が見つかりませんでした。")
+        st.warning("該当する場所が見つかりませんでした。県名などを入れて再検索してください。")
 
 # 追加CSS
 st.markdown("""
