@@ -104,14 +104,6 @@ if query:
         )
         nearby_stores = 加盟店_data_df[加盟店_data_df["distance"] <= 10]
 
-        # 加盟店データとの距離計算
-加盟店_data_df["distance"] = 加盟店_data_df.apply(
-    lambda row: geodesic((search_lat, search_lon), (row["lat"], row["lon"])).km, axis=1
-)
-
-# 10km圏内の店舗をフィルタリング
-nearby_stores = 加盟店_data_df[加盟店_data_df["distance"] <= 10]
-
 # 10km圏内に店舗がない場合、検索範囲を30kmに広げる
 if nearby_stores.empty:
     st.warning("10km圏内に販売店が見つかりませんでした。30km圏内を再検索します。")
