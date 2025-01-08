@@ -76,10 +76,9 @@ video_html_responsive = """
     </div>
     <!-- 文字部分 -->
     <div style="flex: 1; text-align: left; font-size: 10px; line-height: 1.2; overflow-wrap: break-word; word-break: break-word;">
-        <h4 style="margin: 0; font-size: 12px; color: #007acc; line-height: 1.2;">立春を祝う縁起酒『立春朝搾り』2024 on youtube (2024.01)</h4>
-        <p style="margin: 2px 0; font-size: 10px;">
-            「立春朝搾り」がどんなお酒か、わかりやすくご紹介。<br>
-            前々回2023年のお酒の試飲風景も。
+        <h4 style="margin: 0; font-size: 10px; color: #007acc; line-height: 1.2;">立春を祝う縁起酒『立春朝搾り』2024 on youtube (2024.01)</h4>
+        <p style="margin: 1px 0; font-size: 10px;">
+            「立春朝搾り」がどんなお酒か、わかりやすくご紹介。
         </p>
     </div>
 </div>
