@@ -79,7 +79,8 @@ video_html = """
 
 st.markdown(video_html, unsafe_allow_html=True)
 
-
+st.write("")  # 空行を挿入
+st.write("")  # 空行を挿入
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 # フリーワード入力フォーム
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
