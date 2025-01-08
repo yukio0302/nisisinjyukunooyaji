@@ -64,28 +64,51 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 # 画像と説明文
 st.image("kensakup_topmain3.png", use_container_width=True)
 
-# スマホ表示対応：動画の下に文字が配置される
-video_html_responsive = """
-<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9; display: flex; flex-direction: column; align-items: center; gap: 10px;">
-    <!-- 動画部分 -->
-    <div style="width: 100%; max-width: 320px;">
-        <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
-                frameborder="0" 
-                allowfullscreen 
-                style="width: 100%; height: 180px; border-radius: 5px;">
-        </iframe>
-    </div>
-    <!-- 文字部分 -->
-    <div style="width: 100%; max-width: 320px; text-align: center;">
-        <h4 style="margin: 0; font-size: 16px; color: #007acc;">立春を祝う縁起酒『立春朝搾り』2024 on youtube (2024.01)</h4>
-        <p style="margin: 5px 0; font-size: 14px; line-height: 1.6;">
-            「立春朝搾り」がどんなお酒か、わかりやすくご紹介。<br>
-            前々回2023年のお酒の試飲風景も。
-        </p>
+# カスタムHTMLとCSS、JavaScriptでスライド表示を実現
+slide_html = """
+<div style="text-align: center; margin-bottom: 20px;">
+    <!-- ボタン -->
+    <button id="toggleVideo" style="padding: 10px 20px; background-color: #007acc; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        動画はこちら
+    </button>
+</div>
+<div id="videoContainer" style="max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out;">
+    <div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <!-- 動画部分 -->
+        <div style="width: 100%; max-width: 320px;">
+            <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
+                    frameborder="0" 
+                    allowfullscreen 
+                    style="width: 100%; height: 180px; border-radius: 5px;">
+            </iframe>
+        </div>
+        <!-- 文字部分 -->
+        <div style="width: 100%; max-width: 320px; text-align: center;">
+            <h4 style="margin: 0; font-size: 16px; color: #007acc;">立春を祝う縁起酒『立春朝搾り』2024 on youtube (2024.01)</h4>
+            <p style="margin: 5px 0; font-size: 14px; line-height: 1.6;">
+                「立春朝搾り」がどんなお酒か、わかりやすくご紹介。<br>
+                前々回2023年のお酒の試飲風景も。
+            </p>
+        </div>
     </div>
 </div>
+
+<script>
+    const button = document.getElementById('toggleVideo');
+    const videoContainer = document.getElementById('videoContainer');
+
+    button.addEventListener('click', () => {
+        if (videoContainer.style.maxHeight === '0px' || videoContainer.style.maxHeight === '') {
+            videoContainer.style.maxHeight = '500px'; // 適切な高さに調整
+        } else {
+            videoContainer.style.maxHeight = '0px';
+        }
+    });
+</script>
 """
-st.markdown(video_html_responsive, unsafe_allow_html=True)
+
+# StreamlitにHTMLを埋め込み
+st.markdown(slide_html, unsafe_allow_html=True)
 
 
 st.write("")  # 空行を挿入
