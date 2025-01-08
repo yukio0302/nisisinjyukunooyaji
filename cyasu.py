@@ -72,7 +72,7 @@ video_html_responsive = """
         <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
                 frameborder="0" 
                 allowfullscreen 
-                style="width: 100%; height: 90px; border-radius: 5px;">
+                style="width: 100%; height: 120px; border-radius: 5px;">
         </iframe>
     </div>
     <!-- 文字部分 -->
