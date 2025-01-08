@@ -84,7 +84,8 @@ video_html_responsive = """
 </div>
 """
 st.markdown(video_html_responsive, unsafe_allow_html=True)
-
+# 画像
+st.image("kensakup_to-mapwo.png", use_container_width=True)
 
 st.write("")  # 空行を挿入
 st.write("")  # 空行を挿入
