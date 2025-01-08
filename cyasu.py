@@ -64,10 +64,10 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 # 画像と説明文
 st.image("kensakup_topmain3.png", use_container_width=True)
 
-# レスポンシブなYouTube埋め込みスタイル（PC用とスマホ用を分けて調整）
+# 動画サイズをさらに縮小（約半分）
 video_html = """
 <div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9; display: flex; align-items: center; flex-direction: column;">
-    <div style="width: 100%; max-width: 300px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <div style="width: 100%; max-width: 150px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
         <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
                 frameborder="0" 
                 allowfullscreen 
@@ -81,6 +81,7 @@ video_html = """
 </div>
 """
 st.markdown(video_html, unsafe_allow_html=True)
+
 
 st.write("")  # 空行を挿入
 st.write("")  # 空行を挿入
