@@ -65,6 +65,9 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 st.image("kensakup_topmain3.png", use_container_width=True)
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 
+# YouTube動画を埋め込み
+st.video("https://youtu.be/98a6gXKMQFM")
+
 # フリーワード入力フォーム
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
 
