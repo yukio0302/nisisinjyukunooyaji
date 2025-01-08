@@ -61,6 +61,8 @@ hide_streamlit_elements = """
 """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 
+# 画像と説明文
+st.image("kensakup_topmain3.png", use_container_width=True)
 
 # YouTube動画と説明文を表示
 video_html = """
@@ -77,8 +79,7 @@ video_html = """
 
 st.markdown(video_html, unsafe_allow_html=True)
 
-# 画像と説明文
-st.image("kensakup_topmain3.png", use_container_width=True)
+
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 # フリーワード入力フォーム
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
