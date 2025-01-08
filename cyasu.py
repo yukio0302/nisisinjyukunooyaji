@@ -65,8 +65,20 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 st.image("kensakup_topmain3.png", use_container_width=True)
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 
-# YouTube動画を埋め込み
-st.video("https://youtu.be/98a6gXKMQFM")
+# YouTube動画と説明文を表示
+video_html = """
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9; display: flex; align-items: center;">
+    <div style="flex-shrink: 0; margin-right: 10px;">
+        <iframe width="240" height="135" src="https://www.youtube.com/embed/98a6gXKMQFM" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div>
+        <h4 style="margin: 0; color: #007acc;">立春を祝う縁起酒『立春朝搾り』2024 on youtube (2024.01)</h4>
+        <p style="margin: 5px 0;">「立春朝搾り」がどんなお酒か、わかりやすくご紹介。<br>前々回2023年のお酒の試飲風景も。</p>
+    </div>
+</div>
+"""
+
+st.markdown(video_html, unsafe_allow_html=True)
 
 # フリーワード入力フォーム
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
