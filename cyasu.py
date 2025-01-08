@@ -65,7 +65,7 @@ st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 st.image("kensakup_topmain3.png", use_container_width=True)
 
 video_html_responsive = """
-<div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; height: 120px; box-sizing: border-box;">
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; height: 120px; box-sizing: border-box; overflow: hidden;">
     <!-- 動画部分 -->
     <div style="flex: 2; height: 100%;">
         <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
@@ -75,7 +75,7 @@ video_html_responsive = """
         </iframe>
     </div>
     <!-- 文字部分 -->
-    <div style="flex: 1; text-align: left; font-size: 10px; line-height: 1.2; overflow-wrap: break-word;">
+    <div style="flex: 1; text-align: left; font-size: 10px; line-height: 1.2; overflow-wrap: break-word; word-break: break-word; white-space: normal;">
         <h4 style="margin: 0; font-size: 12px; color: #007acc; line-height: 1.2;">立春を祝う縁起酒『立春朝搾り』2024 on youtube (2024.01)</h4>
         <p style="margin: 2px 0; font-size: 10px;">
             「立春朝搾り」がどんなお酒か、わかりやすくご紹介。<br>
@@ -85,7 +85,6 @@ video_html_responsive = """
 </div>
 """
 st.markdown(video_html_responsive, unsafe_allow_html=True)
-
 
 
 st.write("")  # 空行を挿入
