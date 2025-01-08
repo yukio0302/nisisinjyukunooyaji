@@ -66,13 +66,13 @@ st.image("kensakup_topmain3.png", use_container_width=True)
 
 # 動画を左、文字を右に表示するスタイル
 video_html = """
-<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9; display: flex; align-items: center; flex-direction: row; gap: 10px;">
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9; display: flex; align-items: flex-start; gap: 15px;">
     <!-- 動画部分 -->
-    <div style="flex: 0 0 auto; max-width: 200px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <div style="flex: 0 0 auto; width: 200px;">
         <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
                 frameborder="0" 
                 allowfullscreen 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                style="width: 100%; height: 112px; border-radius: 5px;">
         </iframe>
     </div>
     <!-- 文字部分 -->
