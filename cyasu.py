@@ -67,7 +67,7 @@ st.image("kensakup_topmain3.png", use_container_width=True)
 video_html_responsive = """
 <div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; height: 120px; box-sizing: border-box;">
     <!-- 動画部分 -->
-    <div style="flex: 1; max-width: 140px; height: 100%;">
+    <div style="flex: 1; max-width: 180px; height: 100%;">
         <iframe src="https://www.youtube.com/embed/98a6gXKMQFM" 
                 frameborder="0" 
                 allowfullscreen 
