@@ -68,7 +68,7 @@ video_html_responsive = """
 <div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; height: 120px; box-sizing: border-box;">
     <!-- 動画部分 -->
     <div style="flex: 2; height: 100%;">
-        <iframe src="https://youtu.be/svSkE9pK3_E?si=xLCx3dj5htJAojB1" 
+        <iframe src="https://www.youtube.com/embed/svSkE9pK3_E?si=xLCx3dj5htJAojB1" 
                 frameborder="0" 
                 allowfullscreen 
                 style="width: 100%; height: 100%; border-radius: 5px;">
