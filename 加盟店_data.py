@@ -365,7 +365,6 @@ import pandas as pd
 "酒のみの川 - （株）みの川",
 "（株）良知経営　パスポート御経塚店",
 "（株）寿屋　金沢本部",
-"（株）酒のカワサキグループ　　ショック店",
 "ＣＡＶＥＳ　ＤＥ　ＬＡますもと - （株）升々",
 "（有）富田酒店",
 "（株）良知経営　パスポート四ッ居店",
@@ -1215,7 +1214,6 @@ import pandas as pd
 36.5586985,
 36.5470397,
 36.5295656,
-36.3152883,
 37.0053372,
 37.0475166,
 36.0624674,
@@ -1698,7 +1696,7 @@ import pandas as pd
 35.4356051,
 35.3167775,
 35.230974,
-35.5959033
+35.5959033    
  # 他の840店分の緯度を追加
     ],
     "lon": [141.3425112,
@@ -2065,7 +2063,6 @@ import pandas as pd
 136.6837948,
 136.5936328,
 136.6019958,
-136.3590057,
 136.7778385,
 136.9658391,
 136.2456127,
@@ -2915,7 +2912,6 @@ import pandas as pd
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1119",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1120",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1121",
-"https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1122",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1123",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1458",
 "https://www.meimonshu.jp/modules/sakeshops/index.php?page=shop_detail&sid=1116",
@@ -3760,7 +3756,6 @@ import pandas as pd
 ["越の誉"],
 ["越の誉"],
 ["越の誉"],
-["萬歳楽"],
 ["萬歳楽"],
 ["萬歳楽"],
 ["萬歳楽"],
