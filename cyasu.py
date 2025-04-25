@@ -67,7 +67,7 @@ hide_streamlit_elements = """
 st.markdown(hide_streamlit_elements, unsafe_allow_html=True)
 
 # 画像と説明文
-st.image("kensakup_topmain3.png", use_column_width=True)
+st.image("kensakup_topmain3.png", use_container_width=True)
 
 video_html_responsive = """
 <div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; height: 120px; box-sizing: border-box;">
@@ -89,7 +89,7 @@ video_html_responsive = """
 st.markdown(video_html_responsive, unsafe_allow_html=True)
 
 st.write("")
-st.image("kensakup_to-mapwo.png", use_column_width=True)
+st.image("kensakup_to-mapwo.png", use_container_width=True)
 st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
 
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
