@@ -103,7 +103,7 @@ if query:
     search_lat, search_lon = location['lat'], location['lng']
     m = folium.Map(location=[search_lat, search_lon], zoom_start=14)
 
-    加盟店_data_df = reload_加盟店_data()
+    加盟店_data_df = reload_加盟店_data(config["DATA_VERSION"])
     
     # ベクトル化された距離計算
     lats = 加盟店_data_df['lat'].values
