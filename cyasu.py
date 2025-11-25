@@ -8,6 +8,37 @@ import folium
 from streamlit_folium import st_folium
 import json
 import importlib
+import os
+from datetime import datetime
+
+# アクセスカウンター関数
+def update_access_count():
+    counter_file = "access_counter.json"
+    
+    # カウンターファイルの読み込み
+    if os.path.exists(counter_file):
+        try:
+            with open(counter_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except:
+            data = {"access_count": 0, "last_updated": ""}
+    else:
+        data = {"access_count": 0, "last_updated": ""}
+    
+    # カウントアップ（同じセッション内で重複カウントを防ぐ）
+    if "counted" not in st.session_state:
+        data["access_count"] += 1
+        data["last_updated"] = datetime.now().isoformat()
+        st.session_state.counted = True
+        
+        # 保存
+        with open(counter_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    
+    return data["access_count"]
+
+# カウンター更新
+access_count = update_access_count()
 
 # カスタムCSS読込
 from cycustom_css import custom_css
@@ -182,4 +213,23 @@ st.markdown("""
             margin-bottom: 0px !important;
         }
     </style>
+""", unsafe_allow_html=True)
+
+# ホバー時のみ表示される目立たないアクセスカウンター
+st.markdown(f"""
+    <div style='
+        position: fixed;
+        bottom: 5px;
+        right: 5px;
+        color: white;
+        font-size: 10px;
+        opacity: 0.1;
+        z-index: 9999;
+        transition: opacity 0.3s;
+    '
+    onmouseover="this.style.opacity='0.7'"
+    onmouseout="this.style.opacity='0.1'"
+    >
+        👁️ {access_count}
+    </div>
 """, unsafe_allow_html=True)
