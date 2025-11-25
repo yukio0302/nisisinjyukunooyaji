@@ -215,12 +215,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ホバー時のみ表示される目立たないアクセスカウンター
+# ホバー時のみ表示される目立たないアクセスカウンター（画面左下に配置）
 st.markdown(f"""
     <div style='
         position: fixed;
         bottom: 5px;
-        right: 5px;
+        left: 5px;
         color: white;
         font-size: 10px;
         opacity: 0.1;
