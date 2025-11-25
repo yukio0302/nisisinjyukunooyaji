@@ -110,7 +110,7 @@ video_html_responsive = """
         </iframe>
     </div>
     <div style="flex: 1; text-align: left; font-size: 10px; line-height: 1.2; overflow-wrap: break-word; word-break: break-word;">
-        <h4 style="margin: 0; font-size: 10px; color: #007acc; line-height: 1.2;">“異常”なまでに新鮮な日本酒！人と人とを繋ぐ立春朝搾り</h4>
+        <h4 style="margin: 0; font-size: 10px; color: #007acc; line-height: 1.2;">"異常"なまでに新鮮な日本酒！人と人とを繋ぐ立春朝搾り</h4>
         <p style="margin: 1px 0; font-size: 10px;">
             「立春朝搾り」がどんなお酒か、わかりやすくご紹介。
         </p>
@@ -121,7 +121,7 @@ st.markdown(video_html_responsive, unsafe_allow_html=True)
 
 st.write("")
 st.image("kensakup_to-mapwo.png", use_container_width=True)
-st.write("フリーワードを入力すると10Km圏内の販売店が表示されます。")
+st.write("フリーワードを入力すると10km圏内の販売店が表示されます。")
 
 query = st.text_input("最寄り駅やバス停名などを入力してください（例: 新宿駅、東京都新宿区など）:")
 
@@ -215,21 +215,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ホバー時のみ表示される目立たないアクセスカウンター（画面左下に配置）
+# より見やすいアクセスカウンター（画面左下に配置）
 st.markdown(f"""
     <div style='
         position: fixed;
-        bottom: 5px;
-        left: 5px;
-        color: white;
-        font-size: 10px;
-        opacity: 0.1;
+        bottom: 10px;
+        left: 10px;
+        color: #666666;
+        font-size: 12px;
+        opacity: 0.6;
         z-index: 9999;
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 2px 6px;
+        border-radius: 3px;
         transition: opacity 0.3s;
     '
-    onmouseover="this.style.opacity='0.7'"
-    onmouseout="this.style.opacity='0.1'"
+    onmouseover="this.style.opacity='1'; this.style.backgroundColor='rgba(255, 255, 255, 0.9)';"
+    onmouseout="this.style.opacity='0.6'; this.style.backgroundColor='rgba(255, 255, 255, 0.7)';"
     >
-        👁️ {access_count}
+        📊 訪問: {access_count}
     </div>
 """, unsafe_allow_html=True)
