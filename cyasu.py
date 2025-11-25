@@ -231,7 +231,7 @@ st.markdown(f"""
         transition: opacity 0.3s;
     '
     onmouseover="this.style.opacity='1'; this.style.backgroundColor='rgba(255, 255, 255, 0.9)';"
-    onmouseout="this.style.opacity='0.6'; this.style.backgroundColor='rgba(255, 255, 255, 0.7)';"
+    onmouseout="this.style.opacity='0.7'; this.style.backgroundColor='rgba(255, 255, 255, 0.7)';"
     >
         📊 訪問: {access_count}
     </div>
