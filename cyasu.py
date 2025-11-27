@@ -11,9 +11,9 @@ import importlib
 import os
 from datetime import datetime
 
-# アクセスカウンター関数
+# 改良版アクセスカウンター関数 - 総アクセス数を永続化
 def update_access_count():
-    counter_file = "access_counter.json"
+    counter_file = "total_access_counter.json"
     
     # カウンターファイルの読み込み
     if os.path.exists(counter_file):
@@ -21,21 +21,42 @@ def update_access_count():
             with open(counter_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except:
-            data = {"access_count": 0, "last_updated": ""}
+            # ファイルが壊れている場合は初期化
+            data = {
+                "total_access_count": 0, 
+                "last_updated": "", 
+                "first_access": datetime.now().isoformat(),
+                "daily_counts": {}
+            }
     else:
-        data = {"access_count": 0, "last_updated": ""}
+        # 初回実行時
+        data = {
+            "total_access_count": 0, 
+            "last_updated": "", 
+            "first_access": datetime.now().isoformat(),
+            "daily_counts": {}
+        }
     
     # カウントアップ（同じセッション内で重複カウントを防ぐ）
     if "counted" not in st.session_state:
-        data["access_count"] += 1
+        # 総アクセス数を増加
+        data["total_access_count"] += 1
         data["last_updated"] = datetime.now().isoformat()
+        
+        # 日別カウントも記録（オプション）
+        today = datetime.now().strftime("%Y-%m-%d")
+        if today in data["daily_counts"]:
+            data["daily_counts"][today] += 1
+        else:
+            data["daily_counts"][today] = 1
+        
         st.session_state.counted = True
         
         # 保存
         with open(counter_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
     
-    return data["access_count"]
+    return data["total_access_count"]
 
 # カウンター更新
 access_count = update_access_count()
@@ -233,6 +254,6 @@ st.markdown(f"""
     onmouseover="this.style.opacity='1'; this.style.backgroundColor='rgba(255, 255, 255, 0.9)';"
     onmouseout="this.style.opacity='0.7'; this.style.backgroundColor='rgba(255, 255, 255, 0.7)';"
     >
-        📊 訪問: {access_count}
+        📊 総訪問: {access_count}
     </div>
 """, unsafe_allow_html=True)
