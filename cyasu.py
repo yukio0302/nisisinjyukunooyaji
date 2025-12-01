@@ -12,8 +12,10 @@ import os
 from datetime import datetime
 
 # 改良版アクセスカウンター関数 - 総アクセス数を永続化
+# 改良版アクセスカウンター関数 - Streamlit対応版（日付リセット問題修正）
 def update_access_count():
     counter_file = "total_access_counter.json"
+    today = datetime.now().strftime("%Y-%m-%d")
     
     # カウンターファイルの読み込み
     if os.path.exists(counter_file):
@@ -26,7 +28,8 @@ def update_access_count():
                 "total_access_count": 0, 
                 "last_updated": "", 
                 "first_access": datetime.now().isoformat(),
-                "daily_counts": {}
+                "daily_counts": {},
+                "session_ids": {}
             }
     else:
         # 初回実行時
@@ -34,31 +37,65 @@ def update_access_count():
             "total_access_count": 0, 
             "last_updated": "", 
             "first_access": datetime.now().isoformat(),
-            "daily_counts": {}
+            "daily_counts": {},
+            "session_ids": {}
         }
     
-    # カウントアップ（同じセッション内で重複カウントを防ぐ）
-    if "counted" not in st.session_state:
+    # StreamlitセッションIDを取得（または生成）
+    if "access_counter_session_id" not in st.session_state:
+        import uuid
+        st.session_state.access_counter_session_id = str(uuid.uuid4())
+    
+    session_id = st.session_state.access_counter_session_id
+    
+    # 今日の日付で既存のセッションIDを確認
+    today_session_ids = data.get("session_ids", {}).get(today, [])
+    
+    # このセッションが今日まだカウントされていない場合
+    if session_id not in today_session_ids:
         # 総アクセス数を増加
         data["total_access_count"] += 1
         data["last_updated"] = datetime.now().isoformat()
         
-        # 日別カウントも記録（オプション）
-        today = datetime.now().strftime("%Y-%m-%d")
+        # 日別カウント
         if today in data["daily_counts"]:
             data["daily_counts"][today] += 1
         else:
             data["daily_counts"][today] = 1
         
-        st.session_state.counted = True
+        # セッションIDを記録
+        if "session_ids" not in data:
+            data["session_ids"] = {}
+        if today not in data["session_ids"]:
+            data["session_ids"][today] = []
+        data["session_ids"][today].append(session_id)
+        
+        # 古いセッションIDをクリーンアップ（30日以上前のデータを削除）
+        old_dates = []
+        for date_str in list(data["session_ids"].keys()):
+            try:
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                if (datetime.now() - date_obj).days > 30:
+                    old_dates.append(date_str)
+            except:
+                continue
+        
+        for old_date in old_dates:
+            if old_date in data["session_ids"]:
+                del data["session_ids"][old_date]
+            if old_date in data["daily_counts"]:
+                del data["daily_counts"][old_date]
         
         # 保存
-        with open(counter_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        try:
+            with open(counter_file, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"カウンター保存エラー: {e}")
     
     return data["total_access_count"]
 
-# カウンター更新
+# カウンター更新（ページ上部で最初に実行）
 access_count = update_access_count()
 
 # カスタムCSS読込
