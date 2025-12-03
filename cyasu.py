@@ -295,55 +295,144 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# Streamlitアプリの最後に追加
+# Streamlitアプリの最後に追加（改良版）
 st.markdown("""
 <script>
-// スリープ防止用の自動再接続スクリプト
+// スリープ防止用の自動再接続スクリプト（改良版）
 (function() {
-    console.log('🔄 自動再接続スクリプト開始');
+    'use strict';
+    
+    console.log('🔄 Streamlitスリープ防止スクリプト開始');
+    
+    const CONFIG = {
+        // 20分間非アクティブでping送信（30分タイムアウト前）
+        INACTIVE_TIMEOUT: 20 * 60 * 1000, // 20分
+        CHECK_INTERVAL: 2 * 60 * 1000,    // 2分ごとにチェック
+        PING_INTERVAL: 25 * 60 * 1000,    // 25分間隔で定期的にping
+        DEBUG: true
+    };
     
     let lastActivity = Date.now();
-    const TIMEOUT_MS = 25 * 60 * 1000; // 25分（30分のタイムアウト前）
-    const CHECK_INTERVAL = 60 * 1000; // 1分ごとにチェック
+    let lastPing = Date.now();
+    let isActiveTab = true;
+    
+    // デバッグログ
+    function debugLog(message) {
+        if (CONFIG.DEBUG) {
+            console.log(`[スリープ防止] ${message}`);
+        }
+    }
     
     // ユーザーアクティビティを検知
-    ['click', 'mousemove', 'keypress', 'scroll'].forEach(event => {
+    const activityEvents = ['mousedown', 'mousemove', 'keydown', 'touchstart', 'scroll', 'click'];
+    activityEvents.forEach(event => {
         document.addEventListener(event, () => {
             lastActivity = Date.now();
-        });
+            debugLog(`ユーザーアクティビティ検出: ${event}`);
+        }, { passive: true });
     });
     
-    // 定期的にチェックして必要ならpingを送信
+    // タブの表示状態を監視
+    document.addEventListener('visibilitychange', () => {
+        isActiveTab = !document.hidden;
+        debugLog(`タブ状態: ${isActiveTab ? '表示中' : '非表示'}`);
+    });
+    
+    // 軽量なpingを送信
+    function sendKeepAlivePing() {
+        const now = Date.now();
+        const pingUrl = `${window.location.origin}${window.location.pathname}?keepalive=${now}`;
+        
+        debugLog(`ping送信: ${pingUrl}`);
+        
+        // シンプルなfetchリクエスト
+        fetch(pingUrl, {
+            method: 'GET',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            headers: {
+                'X-Keep-Alive': 'true',
+                'X-Timestamp': now.toString()
+            }
+        })
+        .then(() => {
+            lastPing = Date.now();
+            debugLog(`✅ ping成功: ${new Date().toLocaleTimeString()}`);
+        })
+        .catch(err => {
+            debugLog(`⚠️ ping失敗: ${err.message}`);
+        });
+    }
+    
+    // 定期的にチェック
     setInterval(() => {
         const now = Date.now();
         const inactiveTime = now - lastActivity;
+        const timeSinceLastPing = now - lastPing;
         
-        // 25分以上非アクティブならpingを送信
-        if (inactiveTime >= TIMEOUT_MS) {
-            console.log('⏰ 25分以上非アクティブ → ping送信');
-            
-            // 軽量なpingを送信
-            const pingUrl = window.location.origin + window.location.pathname;
-            fetch(pingUrl, {
-                method: 'HEAD',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                headers: {
-                    'X-Auto-Ping': 'true'
-                }
-            }).then(() => {
-                lastActivity = Date.now();
-                console.log('✅ Ping送信成功');
-            }).catch(() => {
-                console.log('⚠️ Ping送信失敗');
-            });
+        debugLog(`非アクティブ時間: ${Math.round(inactiveTime/1000)}秒 | 前回pingから: ${Math.round(timeSinceLastPing/1000)}秒`);
+        
+        // 条件1: 20分以上非アクティブの場合
+        if (inactiveTime >= CONFIG.INACTIVE_TIMEOUT) {
+            debugLog('⏰ 20分以上非アクティブ → ping送信');
+            sendKeepAlivePing();
         }
-    }, CHECK_INTERVAL);
+        
+        // 条件2: 25分間隔での定期ping（タブが表示中のみ）
+        else if (timeSinceLastPing >= CONFIG.PING_INTERVAL && isActiveTab) {
+            debugLog('🕒 定期ping送信（25分間隔）');
+            sendKeepAlivePing();
+        }
+        
+    }, CONFIG.CHECK_INTERVAL);
+    
+    // 初期ping（ページ読み込み後30秒）
+    setTimeout(() => {
+        debugLog('初期ping送信（ページ読み込み後）');
+        sendKeepAlivePing();
+    }, 30000);
     
     // ページ離脱時にもping
     window.addEventListener('beforeunload', () => {
-        navigator.sendBeacon && navigator.sendBeacon(window.location.href);
+        if (navigator.sendBeacon) {
+            const beaconUrl = `${window.location.origin}${window.location.pathname}?unload=${Date.now()}`;
+            navigator.sendBeacon(beaconUrl);
+            debugLog('📤 ページ離脱時にping送信');
+        }
     });
+    
+    debugLog('スクリプト初期化完了');
+    
+    // グローバルに公開（必要に応じて）
+    window.keepAlive = {
+        sendPing: sendKeepAlivePing,
+        getStatus: () => ({
+            lastActivity: new Date(lastActivity).toLocaleTimeString(),
+            lastPing: new Date(lastPing).toLocaleTimeString(),
+            isActiveTab: isActiveTab
+        })
+    };
+    
 })();
+</script>
+
+<!-- 隠し要素でping状態を表示（オプション） -->
+<div id="keepalive-status" style="display: none; position: fixed; bottom: 10px; right: 10px; 
+      background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 5px; 
+      font-size: 12px; z-index: 9999;">
+  スリープ防止: 有効
+</div>
+
+<script>
+// ステータス表示の切り替え（オプション）
+setTimeout(() => {
+    const statusEl = document.getElementById('keepalive-status');
+    if (statusEl) {
+        statusEl.style.display = 'block';
+        setTimeout(() => {
+            statusEl.style.display = 'none';
+        }, 3000);
+    }
+}, 5000);
 </script>
 """, unsafe_allow_html=True)
