@@ -294,3 +294,56 @@ st.markdown(f"""
         📊 総訪問: {access_count}
     </div>
 """, unsafe_allow_html=True)
+
+# Streamlitアプリの最後に追加
+st.markdown("""
+<script>
+// スリープ防止用の自動再接続スクリプト
+(function() {
+    console.log('🔄 自動再接続スクリプト開始');
+    
+    let lastActivity = Date.now();
+    const TIMEOUT_MS = 25 * 60 * 1000; // 25分（30分のタイムアウト前）
+    const CHECK_INTERVAL = 60 * 1000; // 1分ごとにチェック
+    
+    // ユーザーアクティビティを検知
+    ['click', 'mousemove', 'keypress', 'scroll'].forEach(event => {
+        document.addEventListener(event, () => {
+            lastActivity = Date.now();
+        });
+    });
+    
+    // 定期的にチェックして必要ならpingを送信
+    setInterval(() => {
+        const now = Date.now();
+        const inactiveTime = now - lastActivity;
+        
+        // 25分以上非アクティブならpingを送信
+        if (inactiveTime >= TIMEOUT_MS) {
+            console.log('⏰ 25分以上非アクティブ → ping送信');
+            
+            // 軽量なpingを送信
+            const pingUrl = window.location.origin + window.location.pathname;
+            fetch(pingUrl, {
+                method: 'HEAD',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'X-Auto-Ping': 'true'
+                }
+            }).then(() => {
+                lastActivity = Date.now();
+                console.log('✅ Ping送信成功');
+            }).catch(() => {
+                console.log('⚠️ Ping送信失敗');
+            });
+        }
+    }, CHECK_INTERVAL);
+    
+    // ページ離脱時にもping
+    window.addEventListener('beforeunload', () => {
+        navigator.sendBeacon && navigator.sendBeacon(window.location.href);
+    });
+})();
+</script>
+""", unsafe_allow_html=True)
