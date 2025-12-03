@@ -4,7 +4,7 @@ name: Keep Streamlit Alive
 on:
   schedule:
     # 4分間隔で実行（30分のタイムアウトを確実に回避）
-    - cron: '*/4 * * * *'
+    - cron: '*/25 * * * *'
   workflow_dispatch:  # 手動実行も可能
 
 jobs:
