@@ -1,10 +1,9 @@
-# .github/workflows/keep-alive.yml
 name: Keep Streamlit Alive
 
 on:
   schedule:
-    # 4分間隔で実行（30分のタイムアウトを確実に回避）
-    - cron: '*/25 * * * *'
+    # 20分間隔で実行（毎時0分、20分、40分）
+    - cron: '0,20,40 * * * *'
   workflow_dispatch:  # 手動実行も可能
 
 jobs:
@@ -13,21 +12,19 @@ jobs:
     steps:
       - name: Ping Streamlit App
         run: |
-          echo "🕒 現在時刻: $(date)"
+          echo "========================================"
+          echo "🕒 実行時刻: $(date '+%Y-%m-%d %H:%M:%S')"
           echo "🌐 アクセス先: https://risshun-mapkensaku.streamlit.app/"
+          echo "========================================"
           
-          # 完全なブラウザアクセスをシミュレート
-          curl -X GET \
-            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
-            -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" \
-            -H "Accept-Language: ja,en-US;q=0.7,en;q=0.3" \
-            -H "Cache-Control: no-cache" \
-            -H "Pragma: no-cache" \
-            -H "Connection: keep-alive" \
-            --compressed \
-            --silent \
-            --output /dev/null \
-            --write-out "HTTPステータス: %{http_code}\n" \
-            "https://risshun-mapkensaku.streamlit.app/"
+          # 軽量なping（最小限のリクエスト）
+          curl -s \
+            -o /dev/null \
+            -w "HTTPステータス: %{http_code}\n処理時間: %{time_total}秒\n" \
+            -H "User-Agent: GitHub-Actions-Ping/1.0" \
+            -H "X-Ping-Source: github-actions" \
+            --max-time 10 \
+            "https://risshun-mapkensaku.streamlit.app/?source=github_actions"
           
           echo "✅ Ping送信完了"
+          echo "========================================"
