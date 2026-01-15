@@ -161,16 +161,16 @@ st.image("kensakup_topmain3.png", use_container_width=True)
 video_html_responsive = """
 <div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; height: 120px; box-sizing: border-box;">
     <div style="flex: 2; height: 100%;">
-        <iframe src="https://www.youtube.com/embed/svSkE9pK3_E?si=xLCx3dj5htJAojB1" 
+        <iframe src="https://youtu.be/2YM2LUr_aic?si=vZLrRCqk3HmG107q" 
                 frameborder="0" 
                 allowfullscreen 
                 style="width: 100%; height: 100%; border-radius: 5px;">
         </iframe>
     </div>
     <div style="flex: 1; text-align: left; font-size: 10px; line-height: 1.2; overflow-wrap: break-word; word-break: break-word;">
-        <h4 style="margin: 0; font-size: 10px; color: #007acc; line-height: 1.2;">"異常"なまでに新鮮な日本酒！人と人とを繋ぐ立春朝搾り</h4>
+        <h4 style="margin: 0; font-size: 10px; color: #007acc; line-height: 1.2;">一年で一番日本酒が売れる日！？今年も「立春朝搾り」の時期がやってきます！</h4>
         <p style="margin: 1px 0; font-size: 10px;">
-            「立春朝搾り」がどんなお酒か、わかりやすくご紹介。
+            「立春朝搾り」について、わかりやすくご紹介！
         </p>
     </div>
 </div>
